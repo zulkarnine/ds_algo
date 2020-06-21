@@ -1,13 +1,11 @@
 """
 Printer Utility to print a binary tree like a tree.
 
-Can print a tree whose root node has at least the following properties.
+Can print a binary tree whose root node has at least the following properties.
 
-class Node:
-    def __init__(self, val):
-        self.left: Node = None
-        self.right: Node = None
-        self.val = val
+node.left    # left child
+node.right   # right child
+node.val     # value of the node
 """
 
 
@@ -27,13 +25,13 @@ class BinaryTreePrinter:
         self.right_node_line = right_node_line
         self.extra_padding = extra_padding
 
-    def __print(self, node):
+    def __treeify(self, node):
         if node is None:
             return NodePrintData([], 0, 0)
 
         val = f"{node.val}"
-        left_node_data = self.__print(node.left)
-        right_node_data = self.__print(node.right)
+        left_node_data = self.__treeify(node.left)
+        right_node_data = self.__treeify(node.right)
         lines = []
         first_line = ""
         second_line = ""
@@ -71,6 +69,10 @@ class BinaryTreePrinter:
         return NodePrintData(lines, len_before_val, len(val))
 
     def print_node(self, root_node):
-        node_data = self.__print(root_node)
+        node_data = self.__treeify(root_node)
         for line in node_data.lines:
             print(line)
+
+    def get_tree_string(self, root_node):
+        node_data = self.__treeify(root_node)
+        return "\n".join(node_data.lines)
